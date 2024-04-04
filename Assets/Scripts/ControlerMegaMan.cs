@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /* Gestion de déplacement et du saut du personnage à l'aide des touches : a, d et w      
 * Gestion des détections de collision entre le personnage et les objets du jeu  
@@ -17,6 +18,8 @@ public class ControlerPersonnage : MonoBehaviour
     public AudioClip sonMort;   //Son de mort de Megaman
 
     private bool estMort;   //Variable qui determine si Megaman est mort
+    private bool peutAttaquer = true;  //Variable qui determine si Megaman peut attaquer
+    public float vitesseMax;   //Vitesse max du dash
 
     /* Détection des touches et modification de la vitesse de déplacement;
        "a" et "d" pour avancer et reculer, "w" pour sauter
@@ -52,6 +55,21 @@ public class ControlerPersonnage : MonoBehaviour
                 vitesseY = GetComponent<Rigidbody2D>().velocity.y;  //vitesse actuelle verticale
             }
 
+            // attaque avec la touche "espace"
+            if (Input.GetKeyDown(KeyCode.Space) && peutAttaquer == true)
+            {
+                peutAttaquer = false;
+                GetComponent<Animator>().SetBool("attaque", true);
+                Invoke("ArretAttaque", 0.5f);
+            }
+
+            // vitesse du dash
+            if (peutAttaquer == false && Mathf.Abs(vitesseX) <= vitesseMax)
+            {
+                vitesseX *= 2;
+            }
+
+
             //Applique les vitesses en X et Y
             GetComponent<Rigidbody2D>().velocity = new Vector2(vitesseX, vitesseY);
 
@@ -77,12 +95,35 @@ public class ControlerPersonnage : MonoBehaviour
             GetComponent<Animator>().SetBool("saut", false);
         }
 
-        //Collision avec la roue
-        if (infoCollision.gameObject.name == "RoueDentelee")
+        //Collision avec les ennemis
+        if (infoCollision.gameObject.tag == "ennemi")
         {
-            GetComponent<Animator>().SetBool("mort", true);
-            GetComponent<AudioSource>().PlayOneShot(sonMort, 1f);
+            if (peutAttaquer == false)
+            {
+                Destroy(infoCollision.gameObject);
+                GetComponent<Animator>().SetBool("mort", true);         //A Corrige
+            }
+            else 
+            {
+                estMort = true;
+                GetComponent<Animator>().SetBool("mort", true);
+                GetComponent<AudioSource>().PlayOneShot(sonMort, 1f);
+                Invoke("recommencer", 2f);
+            } 
         }
 
+    }
+
+    //Recommence le jeu après la mort
+    void recommencer()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    //Delais entre les attaques
+    void ArretAttaque()
+    {
+        peutAttaquer = true;
+        GetComponent<Animator>().SetBool("attaque", false);
     }
 }
