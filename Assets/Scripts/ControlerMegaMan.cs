@@ -21,6 +21,9 @@ public class ControlerPersonnage : MonoBehaviour
     private bool peutAttaquer = true;  //Variable qui determine si Megaman peut attaquer
     public float vitesseMax;   //Vitesse max du dash
 
+    public GameObject abeille;  //GameObject de l'ennemis abeille
+    public GameObject abeilleDeplacement;   //Gaemobject de son déplacmeent
+
     /* Détection des touches et modification de la vitesse de déplacement;
        "a" et "d" pour avancer et reculer, "w" pour sauter
     */
@@ -100,8 +103,14 @@ public class ControlerPersonnage : MonoBehaviour
         {
             if (peutAttaquer == false)
             {
-                Destroy(infoCollision.gameObject);
-                GetComponent<Animator>().SetBool("mort", true);         //A Corrige
+                GetComponent<Animator>().SetBool("mort", false);
+                //Collision abeille avec le dash
+                abeilleDeplacement.GetComponent<Animator>().enabled = false;
+                abeille.GetComponent<Animator>().SetBool("mort", true);
+                abeille.GetComponent<Collider2D>().enabled = false;
+                
+                Destroy(abeille, 1f);
+                
             }
             else 
             {
