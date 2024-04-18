@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Introduction.unity
     guid: b2c3601da6baf7049aeb4514ff5d1722
   - enabled: 1
-    path: Assets/Scenes/Megaman_partie4.unity
-    guid: 14a8e949b4c5e734088ef924cd062998
+    path: Assets/Scenes/Megaman_partie5.unity
+    guid: af57c333148d9824ea6b3cfdb01c7f0e
   - enabled: 1
     path: Assets/Scenes/FinaleMort.unity
     guid: 35881a80c192c38409255806f3db69f4
