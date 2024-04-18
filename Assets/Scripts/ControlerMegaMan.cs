@@ -108,7 +108,6 @@ public class ControlerPersonnage : MonoBehaviour
                 abeilleDeplacement.GetComponent<Animator>().enabled = false;
                 abeille.GetComponent<Animator>().SetBool("mort", true);
                 abeille.GetComponent<Collider2D>().enabled = false;
-                
                 Destroy(abeille, 1f);
                 
             }
@@ -121,12 +120,18 @@ public class ControlerPersonnage : MonoBehaviour
             } 
         }
 
+        //Collision avec les trophé = victoire
+        if (infoCollision.gameObject.name == "trophee")
+        {
+            SceneManager.LoadScene(3);
+        }
+
     }
 
     //Recommence le jeu après la mort
     void recommencer()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
 
     //Delais entre les attaques

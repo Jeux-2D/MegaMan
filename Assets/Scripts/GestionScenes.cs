@@ -14,13 +14,23 @@ public class GestionScenes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) 
+        int sceneActive = SceneManager.GetActiveScene().buildIndex;
+        //Scene intro a scene de jeu
+        if (Input.GetKeyDown(KeyCode.Space) && sceneActive == 0) 
         {
-            int sceneActive = SceneManager.GetActiveScene().buildIndex +1;
-            Debug.Log("L'index de la scene est: " + sceneActive);
+            SceneManager.LoadScene(1);
+        }
 
-            SceneManager.LoadScene(sceneActive);
-            Debug.Log("L'index de la scene est: " + sceneActive);
+        //Scene mort a jeu
+        if (Input.GetKeyDown(KeyCode.Space) && sceneActive == 2)
+        {
+            SceneManager.LoadScene(1);
+        }
+
+        //Scene gagne a intro
+        if (Input.GetKeyDown(KeyCode.Space) && sceneActive == 3)
+        {
+            SceneManager.LoadScene(0);
         }
     }
 }
