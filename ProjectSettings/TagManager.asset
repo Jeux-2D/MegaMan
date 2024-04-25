@@ -7,6 +7,8 @@ TagManager:
   - plateforme
   - detail
   - ennemi
+  - Point petit
+  - fond
   layers:
   - Default
   - TransparentFX
